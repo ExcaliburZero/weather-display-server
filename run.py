@@ -26,6 +26,12 @@
 from __future__ import print_function
 from subprocess import Popen, PIPE
 import time
+import json
+
+# Read in the configuration settings
+CONFIG = json.loads(open("config.json").read())
+CITY = CONFIG['city']
+APIKEY = CONFIG['apikey']
 
 # Start the server
 Popen("python3 -m http.server 8001", shell=True, stdin=PIPE, stdout=PIPE)
