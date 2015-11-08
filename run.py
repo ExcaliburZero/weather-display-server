@@ -41,6 +41,7 @@ UPDATE_INTERVAL = 60
 i = 0
 while 1 == 1:
 	# Get weather data
+	Popen("curl -H 'x-api-key:" + APIKEY + "' http://api.openweathermap.org/data/2.5/forecast?id=" + str(CITY) + " > forcast.json", shell=True, stdin=PIPE, stdout=PIPE)
 
 	# Wait x minutes until getting next weather data
 	time.sleep(UPDATE_INTERVAL * 60)
