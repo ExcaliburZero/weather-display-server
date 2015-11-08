@@ -58,3 +58,6 @@ target/
 
 # Configuration files
 config.json
+
+# Weather data files
+forcast.json
