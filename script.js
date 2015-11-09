@@ -1,3 +1,12 @@
+// Load configuration settings
+var config_settings;
+function load_config() {
+  $.getJSON("config.json", function(data) {
+    config_settings = data;
+    load_json();
+  });
+}
+
 // Load forcast data from json file
 var forcast_data;
 function load_json() {
@@ -15,10 +24,10 @@ function set_fields() {
   $('#description').html(forcast_data["list"][1]["weather"][0]["description"]);
   var time = new Date(forcast_data["list"][1]["dt"] * 1000);
   var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  $('#time').html(months[time.getMonth()] + " " + time.getDate() + ", " + time.getHours() + ":00");
+  $('#time').html(months[time.getMonth()] + " " + time.getDate() + ", " + (time.getHours() + config_settings["time-difference"]) + ":00");
 }
 
 // Once the document loads, begin reading in from the json file and filling in the fields
 $(document).ready(function() {
-  load_json();
+  load_config();
 });
