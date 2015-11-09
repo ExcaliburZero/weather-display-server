@@ -25,3 +25,6 @@ Weather Display Server can be configured by creating a `config.json` file in the
 * `city` - The id of the city that the weather forcasts will be for. See the folowing page for a list of all of Open Weather Map's city ids: http://openweathermap.org/help/city_list.txt
 * `apikey` - The apikey that is registered with your Open Weather Map account.
 * `time-difference` - The difference in time in hours for the desired timezone from UTC time.
+
+## License
+Weather Display Server is availible under [The MIT License](http://opensource.org/licenses/MIT), see the `LICENSE` file for more information.
