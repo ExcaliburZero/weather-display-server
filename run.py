@@ -32,9 +32,12 @@ import json
 CONFIG = json.loads(open("config.json").read())
 CITY = CONFIG['city']
 APIKEY = CONFIG['apikey']
+PORT = 8001
+if 'port' in CONFIG:
+	PORT = CONFIG['port']
 
 # Start the server
-Popen("python3 -m http.server 8001", shell=True, stdin=PIPE, stdout=PIPE)
+Popen("python3 -m http.server " + str(PORT), shell=True, stdin=PIPE, stdout=PIPE)
 
 # Get the weather data every x minutes
 UPDATE_INTERVAL = 60
