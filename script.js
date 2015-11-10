@@ -34,13 +34,38 @@ function set_fields() {
   // Iterate over the entries and add rows of data on each
   var entries = 20;
   var row;
+  var last_date = "";
+  var new_date;
+  var last_weather = "";
+  var new_weather;
+  var last_temp = "";
+  var new_temp;
+  var last_cloud_cover = "";
+  var new_cloud_cover;
   for(var num = 1; num < entries + 1; num++) {
     row = "";
     row = row + '<tr>\n';
+
     time = new Date((forcast_data["list"][num]["dt"] * 1000) + (3600 * config_settings["time-difference"]));
-    row = row + '<td class="row-date" id="' + num + '-date">' + months[time.getMonth()] + " " + time.getDate() + '</td>';
+    new_date = months[time.getMonth()] + " " + time.getDate();
+    // Prevent repetition of dates
+    if (new_date != last_date) {
+      row = row + '<td class="row-date" id="' + num + '-date">' + new_date + '</td>';
+    } else {
+      row = row + '<td class="row-date" id="' + num + '-date"></td>';
+    }
+    last_date = new_date;
     row = row + '<td class="row-time" id="' + num + '-time">' + time.getHours() + ":00" + '</td>';
-    row = row + '<td class="row-weather" id="' + num + '-weather">' + forcast_data["list"][num]["weather"][0]["main"] + '</td>';
+
+    // Prevent repetition of weather
+    new_weather = forcast_data["list"][num]["weather"][0]["main"];
+    if (new_weather != last_weather) {
+      row = row + '<td class="row-weather" id="' + num + '-weather">' + new_weather + '</td>';
+    } else {
+      row = row + '<td class="row-weather" id="' + num + '-weather">' + "''" + '</td>';
+    }
+    last_weather = new_weather;
+
     var precipitation = 0;
     if (forcast_data["list"][num]["rain"]) {
       precipitation = forcast_data["list"][num]["rain"]["3h"];
@@ -48,9 +73,26 @@ function set_fields() {
       precipitation = forcast_data["list"][num]["snow"]["3h"];
     }
     row = row + '<td class="row-precipitation" id="' + num + '-precipitation">' + Number(precipitation).toFixed(2) + '</td>';
-    row = row + '<td class="row-temp" id="' + num + '-temp">' + k_to_f(forcast_data["list"][num]["main"]["temp"]) + '</td>';
-    row = row + '<td class="row-cloud-cover" id="' + num + '-colud-cover">' + forcast_data["list"][num]["clouds"]["all"] + " %" + '</td>';
-    row = row + '<td class="row-wind-speed" id="' + num + '-wind-speed">' + forcast_data["list"][num]["wind"]["speed"] + " m/s" + '</td>';
+
+    // Prevent repetition in temperatures
+    new_temp = k_to_f(forcast_data["list"][num]["main"]["temp"]);
+    if (new_temp != last_temp) {
+      row = row + '<td class="row-temp" id="' + num + '-temp">' + new_temp + '</td>';
+    } else {
+      row = row + '<td class="row-temp" id="' + num + '-temp">' + "''" + '</td>';
+    }
+    last_temp = new_temp;
+
+    // Prevent repetition in cloud cover
+    new_cloud_cover = forcast_data["list"][num]["clouds"]["all"];
+    if (new_cloud_cover != last_cloud_cover) {
+      row = row + '<td class="row-cloud-cover" id="' + num + '-colud-cover">' + new_cloud_cover + " %" + '</td>';
+    } else {
+      row = row + '<td class="row-cloud-cover" id="' + num + '-colud-cover">' + "''" + '</td>';
+    }
+    last_cloud_cover = new_cloud_cover;
+
+   row = row + '<td class="row-wind-speed" id="' + num + '-wind-speed">' + forcast_data["list"][num]["wind"]["speed"] + " m/s" + '</td>';
     row = row + '<tr>\n';
     $('#future-table').append(row);
   }
