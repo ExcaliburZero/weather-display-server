@@ -30,4 +30,6 @@ Weather Display Server can be configured by creating a `config.json` file in the
   * `port` - The port that the webpage will be served on, entered as a number. Defaults to `8001`.
 
 ## License
-Weather Display Server is availible under [The MIT License](http://opensource.org/licenses/MIT), see the `LICENSE` file for more information.
+The source code of Weather Display Server is availible under [The MIT License](http://opensource.org/licenses/MIT), see the `LICENSE` file for more information.
+
+Any images or other media included with Weather Display Sever are availible under the [CC BY-SA 4.0 license](https://creativecommons.org/licenses/by-sa/4.0/), see the `LICENSE` file for more information.
