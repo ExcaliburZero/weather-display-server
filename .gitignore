@@ -61,3 +61,6 @@ config.json
 
 # Weather data files
 forcast.json
+
+# nohup output files
+nohup.out
