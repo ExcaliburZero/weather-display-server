@@ -32,7 +32,7 @@ function set_fields() {
   $('#country').html(forcast_data["city"]["country"]);
   $('#weather').html(forcast_data["list"][1]["weather"][0]["main"]);
   $('#description').html(forcast_data["list"][1]["weather"][0]["description"]);
-  var time = new Date((forcast_data["list"][1]["dt"] * 1000) + (3600 * time_difference));
+  var time = new Date((forcast_data["list"][1]["dt"] * 1000) + (60 * 60 * 1000 * (time_difference + 2)));
   var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   $('#time').html(months[time.getMonth()] + " " + time.getDate() + ", " + time.getHours() + ":00");
 
@@ -51,7 +51,7 @@ function set_fields() {
     row = "";
     row = row + '<tr>\n';
 
-    time = new Date((forcast_data["list"][num]["dt"] * 1000) + (3600 * time_difference));
+    time = new Date((forcast_data["list"][num]["dt"] * 1000) + (60 * 60 * 1000 * (time_difference + 2)));
     new_date = months[time.getMonth()] + " " + time.getDate();
     // Prevent repetition of dates
     if (new_date != last_date) {
