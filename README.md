@@ -25,8 +25,8 @@ Weather Display Server can be configured by creating a `config.json` file in the
 * **Required**
   * `city` - The id of the city that the weather forcasts will be for, entered as a number. See the folowing page for a list of all of Open Weather Map's city ids: http://openweathermap.org/help/city_list.txt
   * `apikey` - The apikey that is registered with your Open Weather Map account, entered as a string.
-  * `time-difference` - The difference in time in hours for the desired timezone from UTC time, entered as an integer.
 * **Optional**
+  * `time-difference` - The difference in time in hours for the desired timezone from UTC time, entered as an integer. Defaults to `0`.
   * `port` - The port that the webpage will be served on, entered as a number. Defaults to `8001`.
 
 ## License

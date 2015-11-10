@@ -5,9 +5,14 @@ function k_to_f(kelvin) {
 
 // Load configuration settings
 var config_settings;
+var time_difference;
 function load_config() {
   $.getJSON("config.json", function(data) {
     config_settings = data;
+    time_difference = 0;
+    if (config_settings["time-difference"] != undefined) {
+      time_difference = config_settings["time-difference"];
+    }
     load_json();
   });
 }
@@ -27,7 +32,7 @@ function set_fields() {
   $('#country').html(forcast_data["city"]["country"]);
   $('#weather').html(forcast_data["list"][1]["weather"][0]["main"]);
   $('#description').html(forcast_data["list"][1]["weather"][0]["description"]);
-  var time = new Date((forcast_data["list"][1]["dt"] * 1000) + (3600 * config_settings["time-difference"]));
+  var time = new Date((forcast_data["list"][1]["dt"] * 1000) + (3600 * time_difference));
   var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   $('#time').html(months[time.getMonth()] + " " + time.getDate() + ", " + time.getHours() + ":00");
 
@@ -46,7 +51,7 @@ function set_fields() {
     row = "";
     row = row + '<tr>\n';
 
-    time = new Date((forcast_data["list"][num]["dt"] * 1000) + (3600 * config_settings["time-difference"]));
+    time = new Date((forcast_data["list"][num]["dt"] * 1000) + (3600 * time_difference));
     new_date = months[time.getMonth()] + " " + time.getDate();
     // Prevent repetition of dates
     if (new_date != last_date) {
