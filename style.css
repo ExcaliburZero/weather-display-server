@@ -1,0 +1,66 @@
+table {
+	width: 800px;
+}
+
+td {
+	padding: 3px;
+}
+
+/* Headers */
+.header-date {
+	text-align: left;
+}
+
+.header-time {
+	text-align: right;
+}
+
+.header-weather {
+	text-align: left;
+	padding-left: 20px;
+}
+
+.header-precipitation {
+	text-align: right;
+}
+
+.header-temp {
+	text-align: right;
+}
+
+.header-cloud-cover {
+	text-align: right;
+}
+
+.header-wind-speed {
+	text-align: right;
+}
+
+/* Columns */
+.row-date {
+	text-align: left;
+}
+
+.row-time {
+	text-align: right;
+}
+
+.row-weather {
+	padding-left: 20px;
+}
+
+.row-precipitation {
+	text-align: right;
+}
+
+.row-temp {
+	text-align: right;
+}
+
+.row-cloud-cover {
+	text-align: right;
+}
+
+.row-wind-speed {
+	text-align: right;
+}
