@@ -26,11 +26,31 @@ function convert_temp(kelvin) {
   return Math.floor(converted_temp);
 }
 
+// Convert mm to inches
+function mm_to_in(mm) {
+  return mm / 25.4;
+}
+
+// Convert the given mm precipitation to the correct unit based on the precipitation-unit setting
+function convert_precipitation(mm) {
+  var converted_precipitation;
+  if (precipitation_unit == "in") {
+    converted_precipitation =  mm_to_in(mm);
+    precipitation_ending = " in";
+  } else if (precipitation_unit == "mm") {
+    converted_precipitation = mm;
+    precipitation_ending = " mm";
+  }
+  return Number(converted_precipitation).toFixed(2);
+}
+
 // Load configuration settings
 var config_settings;
 var time_difference;
 var temp_unit;
 var temp_ending;
+var precipitation_unit;
+var precipitation_ending;
 function load_config() {
   $.getJSON("config.json", function(data) {
     config_settings = data;
@@ -45,6 +65,12 @@ function load_config() {
     temp_unit = "F";
     if (config_settings["temp-unit"] != undefined) {
       temp_unit = config_settings["temp-unit"];
+    }
+
+    // Handle optional precipitation-unit setting
+    precipitation_unit = "mm";
+    if (config_settings["precipitation-unit"] != undefined) {
+      precipitation_unit = config_settings["precipitation-unit"];
     }
 
     load_json();
@@ -111,7 +137,7 @@ function set_fields() {
     } else if (forcast_data["list"][num]["snow"]) {
       precipitation = forcast_data["list"][num]["snow"]["3h"];
     }
-    row = row + '<td class="row-precipitation" id="' + num + '-precipitation">' + Number(precipitation).toFixed(2) + '</td>';
+    row = row + '<td class="row-precipitation" id="' + num + '-precipitation">' + convert_precipitation(precipitation) + precipitation_ending + '</td>';
 
     // Prevent repetition in temperatures
     new_temp = convert_temp(forcast_data["list"][num]["main"]["temp"]);
