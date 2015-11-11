@@ -32,6 +32,7 @@ Weather Display Server can be configured by creating a `config.json` file in the
 * **Optional**
   * `time-difference` - The difference in time in hours for the desired timezone from UTC time, entered as an integer. Defaults to `0`.
   * `port` - The port that the webpage will be served on, entered as a number. Defaults to `8001`.
+  * `temp-unit` - The units that are used for displaying temperature. Valid values are `"F"` for Farenheit. `"C"` for Celcius, and `"K"` for Kelvin. Defaults to `"F"`.
 
 ## License
 The source code of Weather Display Server is availible under [The MIT License](http://opensource.org/licenses/MIT), see the `LICENSE` file for more information.

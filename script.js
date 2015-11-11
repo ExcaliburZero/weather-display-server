@@ -1,18 +1,57 @@
 // Convert Kelvin to Farenheit
 function k_to_f(kelvin) {
-  return Math.floor((kelvin - 273.15) * 1.80 + 32.0);
+  return (kelvin - 273.15) * 1.80 + 32.0;
+}
+
+// Convert Kelvin to Celcius
+function k_to_c(kelvin) {
+  return kelvin - 273.15;
+}
+
+// Convert the given Kelvin temperature to the correct unit based on the temp-unit config setting
+function convert_temp(kelvin) {
+  var converted_temp;
+  if (temp_unit == "F") {
+    converted_temp = k_to_f(kelvin);
+    temp_ending = " &deg;F";
+  }
+  else if (temp_unit == "C") {
+    converted_temp = k_to_c(kelvin);
+    temp_ending = " &deg;C";
+  }
+  else if (temp_unit == "K") {
+    converted_temp = kelvin;
+    temp_ending = " K";
+  }
+  return Math.floor(converted_temp);
 }
 
 // Load configuration settings
 var config_settings;
 var time_difference;
+var temp_unit;
+var temp_ending;
 function load_config() {
   $.getJSON("config.json", function(data) {
     config_settings = data;
+
+    // Handle optional time-difference setting
     time_difference = 0;
     if (config_settings["time-difference"] != undefined) {
       time_difference = config_settings["time-difference"];
     }
+
+    // Handle option temp-unit seting
+    temp_unit = "F";
+    if (config_settings["temp-unit"] != undefined) {
+      if (config_settings["temp-unit"] == "F" || config_settings["temp-unit"] == "C" || config_settings["temp-unit"] == "K") {
+        temp_unit = config_settings["temp-unit"];
+      }
+      else {
+        console.error("Invalid temp-unit setting: " + config_settings["temp-unit"]);
+      }
+    }
+
     load_json();
   });
 }
@@ -80,9 +119,9 @@ function set_fields() {
     row = row + '<td class="row-precipitation" id="' + num + '-precipitation">' + Number(precipitation).toFixed(2) + '</td>';
 
     // Prevent repetition in temperatures
-    new_temp = k_to_f(forcast_data["list"][num]["main"]["temp"]);
+    new_temp = convert_temp(forcast_data["list"][num]["main"]["temp"]);
     if (new_temp != last_temp) {
-      row = row + '<td class="row-temp" id="' + num + '-temp">' + new_temp + '</td>';
+      row = row + '<td class="row-temp" id="' + num + '-temp">' + new_temp + temp_ending + '</td>';
     } else {
       row = row + '<td class="row-temp" id="' + num + '-temp">' + "''" + '</td>';
     }
