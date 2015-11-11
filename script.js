@@ -41,15 +41,10 @@ function load_config() {
       time_difference = config_settings["time-difference"];
     }
 
-    // Handle option temp-unit seting
+    // Handle optional temp-unit seting
     temp_unit = "F";
     if (config_settings["temp-unit"] != undefined) {
-      if (config_settings["temp-unit"] == "F" || config_settings["temp-unit"] == "C" || config_settings["temp-unit"] == "K") {
-        temp_unit = config_settings["temp-unit"];
-      }
-      else {
-        console.error("Invalid temp-unit setting: " + config_settings["temp-unit"]);
-      }
+      temp_unit = config_settings["temp-unit"];
     }
 
     load_json();

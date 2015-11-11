@@ -27,14 +27,46 @@ from __future__ import print_function
 from subprocess import Popen, PIPE
 import time
 import json
+import sys
+
+# Function to print that there is an invalid config setting and end the program
+def invalid_setting(setting):
+	"""Send error message for invalid setting to terminal's stderr"""
+	if setting in CONFIG:
+		print("Invalid setting '" + setting + "': ", CONFIG[setting], file=sys.stderr)
+	else:
+		print("Required setting '" + setting + "'", "is not set.", file=sys.stderr)
+	sys.exit()
 
 # Read in the configuration settings
 CONFIG = json.loads(open("config.json").read())
-CITY = CONFIG['city']
-APIKEY = CONFIG['apikey']
+CITY = None
+if 'city' in CONFIG:
+	CITY = CONFIG['city']
+APIKEY = None
+if 'apikey' in CONFIG:
+	APIKEY = CONFIG['apikey']
+TIMEDIFFERENCE = 0
+if 'time-difference' in CONFIG:
+	 TIMEDIFFERENCE = CONFIG['time-difference']
 PORT = 8001
 if 'port' in CONFIG:
 	PORT = CONFIG['port']
+TEMPUNIT = "F"
+if 'temp-unit' in CONFIG:
+	TEMPUNIT = CONFIG['temp-unit']
+
+# Check to make sure that all configuration settings are valid
+if CITY == None or CITY < 0:
+	invalid_setting("city")
+if APIKEY == None:
+	invalid_setting("apikey")
+if TIMEDIFFERENCE < -12 or TIMEDIFFERENCE > 14:
+	invalid_setting("time-difference")
+if PORT < 0:
+	invalid_setting("port")
+if TEMPUNIT != "F" and TEMPUNIT != "C" and TEMPUNIT != "K":
+	invalid_setting("temp-unit")
 
 # Start the server
 Popen("python3 -m http.server " + str(PORT), shell=True, stdin=PIPE, stdout=PIPE)
