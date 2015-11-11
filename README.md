@@ -2,13 +2,17 @@
 Weather Display Server is a python application which gathers weather data and displays it on a webpage.
 
 ## Usage
-Weather Display Server can be run by creating a configuration file and then running the following command:
+Weather Display Server can be run by creating a configuration file and then running the following command. After running this command, the webpage can be accessed by visiting `localhost:8001` in your internet browser.
 
 ```
 python run.py
 ```
 
-After running this command, the webpage can be accessed by visiting `localhost:8001` in your internet browser.
+In order to keep Weather Display Server running in the background even after you log out, you can use the following command. The process can be ended by killing it using a system monitor program like `top`.
+
+```
+nohup python run.py &
+```
 
 ## Configuration
 Weather Display Server can be configured by creating a `config.json` file in the root directory of the project. An example of a configuration file is as follows:
