@@ -44,6 +44,32 @@ function convert_precipitation(mm) {
   return Number(converted_precipitation).toFixed(2);
 }
 
+// Convert m/s to km/h
+function ms_to_kmh(ms) {
+  return ms * 3.6;
+}
+
+// Convert m/s to mph
+function ms_to_mph(ms) {
+  return ms * 2.2369362920544;
+}
+
+// Convert the given m/s wind speed to the correct unit based on the wind-speed-unit setting
+function convert_wind_speed(ms) {
+  var converted_wind_speed;
+  if (wind_speed_unit == "km/h") {
+    converted_wind_speed = ms_to_kmh(ms);
+    wind_speed_ending = " km/h";
+  } else if (wind_speed_unit == "mph") {
+    converted_wind_speed = ms_to_mph(ms);
+    wind_speed_ending = " mph";
+  } else if (wind_speed_unit == "m/s") {
+    converted_wind_speed = ms;
+    wind_speed_ending = " m/s";
+  }
+  return Number(converted_wind_speed).toFixed(2);
+}
+
 // Load configuration settings
 var config_settings;
 var time_difference;
@@ -51,6 +77,8 @@ var temp_unit;
 var temp_ending;
 var precipitation_unit;
 var precipitation_ending;
+var wind_speed_unit;
+var wind_speed_ending;
 function load_config() {
   $.getJSON("config.json", function(data) {
     config_settings = data;
@@ -71,6 +99,12 @@ function load_config() {
     precipitation_unit = "mm";
     if (config_settings["precipitation-unit"] != undefined) {
       precipitation_unit = config_settings["precipitation-unit"];
+    }
+
+    // Handle optional wind-speed-unit setting
+    wind_speed_unit = "m/s";
+    if (config_settings["wind-speed-unit"] != undefined) {
+      wind_speed_unit = config_settings["wind-speed-unit"];
     }
 
     load_json();
@@ -157,7 +191,7 @@ function set_fields() {
     }
     last_cloud_cover = new_cloud_cover;
 
-   row = row + '<td class="row-wind-speed" id="' + num + '-wind-speed">' + forcast_data["list"][num]["wind"]["speed"] + " m/s" + '</td>';
+   row = row + '<td class="row-wind-speed" id="' + num + '-wind-speed">' + convert_wind_speed(forcast_data["list"][num]["wind"]["speed"]) + wind_speed_ending + '</td>';
     row = row + '<tr>\n';
     $('#future-table').append(row);
   }

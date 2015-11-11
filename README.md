@@ -34,6 +34,7 @@ Weather Display Server can be configured by creating a `config.json` file in the
   * `port` - The port that the webpage will be served on, entered as a number. Defaults to `8001`.
   * `temp-unit` - The units that are used for displaying temperature. Valid values are `"F"` for Farenheit. `"C"` for Celcius, and `"K"` for Kelvin. Defaults to `"F"`.
   * `precipitation-unit` - The units that are used for displaying precipitation. Valid values are `"in"` for inches and `"mm"` for milimeters. Defaults to `"mm"`.
+  * `wind-speed-unit` - The units that are used for displaying wind speed. Valid values are `"mph"` for miles per hour, `"m/s"` for meters per second, and `"km/h"`for kilometers per hour. Defaults to `"m/s"`.
 
 ## License
 The source code of Weather Display Server is availible under [The MIT License](http://opensource.org/licenses/MIT), see the `LICENSE` file for more information.

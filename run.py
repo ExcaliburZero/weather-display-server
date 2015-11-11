@@ -57,7 +57,10 @@ if 'temp-unit' in CONFIG:
 	TEMPUNIT = CONFIG['temp-unit']
 PRECIPITATIONUNIT = "mm"
 if 'precipitation-unit' in CONFIG:
-	 PRECIPITATIONUNIT = CONFIG['precipitation-unit']
+	PRECIPITATIONUNIT = CONFIG['precipitation-unit']
+WINDSPEEDUNIT = "m/s"
+if 'wind-speed-unit' in CONFIG:
+	WINDSPEEDUNIT = CONFIG['wind-speed-unit']
 
 # Check to make sure that all configuration settings are valid
 if CITY == None or CITY < 0:
@@ -72,6 +75,8 @@ if TEMPUNIT != "F" and TEMPUNIT != "C" and TEMPUNIT != "K":
 	invalid_setting("temp-unit")
 if PRECIPITATIONUNIT != "mm" and PRECIPITATIONUNIT != "in":
 	invalid_setting("precipitation-unit")
+if WINDSPEEDUNIT != "m/s" and WINDSPEEDUNIT != "km/h" and WINDSPEEDUNIT != "mph":
+	invalid_setting("wind-speed-unit")
 
 # Start the server
 Popen("python3 -m http.server " + str(PORT), shell=True, stdin=PIPE, stdout=PIPE)
