@@ -8,20 +8,35 @@ function k_to_c(kelvin) {
   return kelvin - 273.15;
 }
 
+// Get the temperature unit ending for the given setting
+function get_temp_ending() {
+  switch (temp_unit) {
+    case "F":
+      return "&deg;F";
+    case "C":
+      return "&deg;C";
+    case "K":
+      return "K";
+  }
+}
+
 // Convert the given Kelvin temperature to the correct unit based on the temp-unit config setting
 function convert_temp(kelvin) {
   var converted_temp;
   if (temp_unit == "F") {
     converted_temp = k_to_f(kelvin);
-    temp_ending = " &deg;F";
   }
   else if (temp_unit == "C") {
     converted_temp = k_to_c(kelvin);
-    temp_ending = " &deg;C";
   }
   else if (temp_unit == "K") {
     converted_temp = kelvin;
-    temp_ending = " K";
+  }
+
+  if (header_units == "N") {
+    temp_ending = " " + get_temp_ending();
+  } else {
+    temp_ending = "";
   }
   return Math.floor(converted_temp);
 }
@@ -31,15 +46,29 @@ function mm_to_in(mm) {
   return mm / 25.4;
 }
 
+// Get the precipitation unit ending for the given setting
+function get_precipitation_ending() {
+  switch (precipitation_unit) {
+    case "in":
+      return "in";
+    case "mm":
+      return "mm";
+  }
+}
+
 // Convert the given mm precipitation to the correct unit based on the precipitation-unit setting
 function convert_precipitation(mm) {
   var converted_precipitation;
   if (precipitation_unit == "in") {
     converted_precipitation =  mm_to_in(mm);
-    precipitation_ending = " in";
   } else if (precipitation_unit == "mm") {
     converted_precipitation = mm;
-    precipitation_ending = " mm";
+  }
+
+  if (header_units == "N") {
+    precipitation_ending = " " + get_precipitation_ending();
+  } else {
+    precipitation_ending = "";
   }
   return Number(converted_precipitation).toFixed(2);
 }
@@ -54,18 +83,33 @@ function ms_to_mph(ms) {
   return ms * 2.2369362920544;
 }
 
+// Get the wind speed unit ending for the given setting
+function get_wind_speed_ending() {
+  switch (wind_speed_unit) {
+    case "km/h":
+      return "km/h";
+    case "mph":
+      return "mph";
+    case "m/s":
+      return "m/s";
+  }
+
+}
 // Convert the given m/s wind speed to the correct unit based on the wind-speed-unit setting
 function convert_wind_speed(ms) {
   var converted_wind_speed;
   if (wind_speed_unit == "km/h") {
     converted_wind_speed = ms_to_kmh(ms);
-    wind_speed_ending = " km/h";
   } else if (wind_speed_unit == "mph") {
     converted_wind_speed = ms_to_mph(ms);
-    wind_speed_ending = " mph";
   } else if (wind_speed_unit == "m/s") {
     converted_wind_speed = ms;
-    wind_speed_ending = " m/s";
+  }
+
+  if (header_units == "N") {
+    wind_speed_ending = " " + get_wind_speed_ending();
+  } else {
+    wind_speed_ending = "";
   }
   return Number(converted_wind_speed).toFixed(2);
 }
@@ -73,15 +117,22 @@ function convert_wind_speed(ms) {
 // Load configuration settings
 var config_settings;
 var time_difference;
-var temp_unit;
-var temp_ending;
 var precipitation_unit;
 var precipitation_ending;
+var temp_unit;
+var temp_ending;
+var cloud_cover_ending;
 var wind_speed_unit;
 var wind_speed_ending;
 function load_config() {
   $.getJSON("config.json", function(data) {
     config_settings = data;
+
+    // Handle optional header-units setting
+    header_units = "Y";
+    if (config_settings["header-units"] != undefined) {
+      header_units = config_settings["header-units"];
+    }
 
     // Handle optional time-difference setting
     time_difference = 0;
@@ -130,9 +181,28 @@ function set_fields() {
   var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   $('#time').html(months[time.getMonth()] + " " + time.getDate() + ", " + time.getHours() + ":00");
 
+  // Add the table headers
+  var row = "";
+  row = row + '<tr>';
+  row = row + '<th class="header-date">Date</th>';
+  row = row + '<th class="header-time">Time</th>';
+  row = row + '<th class="header-weather">Weather</th>';
+  if (header_units == "Y") {
+    row = row + '<th class="header-precipitation">Precipitation (' + get_precipitation_ending() + ')</th>';
+    row = row + '<th class="header-temp">Temperature (' + get_temp_ending() + ')</th>';
+    row = row + '<th class="header-cloud-cover">Cloud Cover (%)</th>';
+    row = row + '<th class="header-wind-speed">Wind Speed (' + get_wind_speed_ending() + ')</th>';
+  } else if (header_units == "N") {
+    row = row + '<th class="header-precipitation">Precipitation</th>';
+    row = row + '<th class="header-temp">Temperature</th>';
+    row = row + '<th class="header-cloud-cover">Cloud Cover</th>';
+    row = row + '<th class="header-wind-speed">Wind Speed</th>';
+  }
+  row = row + '</tr>';
+  $('#future-table').append(row);
+
   // Iterate over the entries and add rows of data on each
   var entries = 20;
-  var row;
   var last_date = "";
   var new_date;
   var last_weather = "";
@@ -182,10 +252,15 @@ function set_fields() {
     }
     last_temp = new_temp;
 
+    if (header_units == "N") {
+      cloud_cover_ending = " %";
+    } else {
+      cloud_cover_ending = "";
+    }
     // Prevent repetition in cloud cover
     new_cloud_cover = forcast_data["list"][num]["clouds"]["all"];
     if (new_cloud_cover != last_cloud_cover) {
-      row = row + '<td class="row-cloud-cover" id="' + num + '-colud-cover">' + new_cloud_cover + " %" + '</td>';
+      row = row + '<td class="row-cloud-cover" id="' + num + '-colud-cover">' + new_cloud_cover + cloud_cover_ending + '</td>';
     } else {
       row = row + '<td class="row-cloud-cover" id="' + num + '-colud-cover">' + "''" + '</td>';
     }

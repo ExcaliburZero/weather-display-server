@@ -52,6 +52,9 @@ if 'time-difference' in CONFIG:
 PORT = 8001
 if 'port' in CONFIG:
 	PORT = CONFIG['port']
+HEADERUNITS = "Y"
+if 'header-units' in CONFIG:
+	HEADERUNITS = CONFIG['header-units']
 TEMPUNIT = "F"
 if 'temp-unit' in CONFIG:
 	TEMPUNIT = CONFIG['temp-unit']
@@ -71,6 +74,8 @@ if TIMEDIFFERENCE < -12 or TIMEDIFFERENCE > 14:
 	invalid_setting("time-difference")
 if PORT < 0:
 	invalid_setting("port")
+if HEADERUNITS != "N" and HEADERUNITS != "Y":
+	invalid_setting("header-units")
 if TEMPUNIT != "F" and TEMPUNIT != "C" and TEMPUNIT != "K":
 	invalid_setting("temp-unit")
 if PRECIPITATIONUNIT != "mm" and PRECIPITATIONUNIT != "in":
