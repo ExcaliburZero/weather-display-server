@@ -213,6 +213,8 @@ function set_fields() {
   var new_date;
   var last_weather = "";
   var new_weather;
+  var last_precipitation = "";
+  var new_precipitation;
   var last_temp = "";
   var new_temp;
   var last_cloud_cover = "";
@@ -247,7 +249,15 @@ function set_fields() {
     } else if (forcast_data["list"][num]["snow"]) {
       precipitation = forcast_data["list"][num]["snow"]["3h"];
     }
-    row = row + '<td class="row-precipitation" id="' + num + '-precipitation">' + convert_precipitation(precipitation) + precipitation_ending + '</td>';
+    // Prevent repetition of precipitation
+    new_precipitation = precipitation;
+    if (new_precipitation != last_precipitation) {
+      row = row + '<td class="row-precipitation" id="' + num + '-precipitation">' + convert_precipitation(new_precipitation) + precipitation_ending + '</td>';
+    } else {
+      row = row + '<td class="row-precipitation" id="' + num + '-precipitation">' + "''" + '</td>';
+    }
+    last_precipitation = new_precipitation;
+
 
     // Prevent repetition in temperatures
     new_temp = convert_temp(forcast_data["list"][num]["main"]["temp"]);
