@@ -59,6 +59,12 @@ function get_precipitation_ending() {
 // Convert the given mm precipitation to the correct unit based on the precipitation-unit setting
 function convert_precipitation(mm) {
   var converted_precipitation;
+
+  // If precipitaion is undefined, then set it to zero
+  if (!mm) {
+    mm = 0;
+  }
+
   if (precipitation_unit == "in") {
     converted_precipitation =  mm_to_in(mm);
   } else if (precipitation_unit == "mm") {
