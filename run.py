@@ -48,7 +48,7 @@ if 'apikey' in CONFIG:
 	APIKEY = CONFIG['apikey']
 TIMEDIFFERENCE = 0
 if 'time-difference' in CONFIG:
-	 TIMEDIFFERENCE = CONFIG['time-difference']
+	TIMEDIFFERENCE = CONFIG['time-difference']
 PORT = 8001
 if 'port' in CONFIG:
 	PORT = CONFIG['port']
@@ -66,9 +66,9 @@ if 'wind-speed-unit' in CONFIG:
 	WINDSPEEDUNIT = CONFIG['wind-speed-unit']
 
 # Check to make sure that all configuration settings are valid
-if CITY == None or CITY < 0:
+if CITY is None or CITY < 0:
 	invalid_setting("city")
-if APIKEY == None:
+if APIKEY is None:
 	invalid_setting("apikey")
 if TIMEDIFFERENCE < -12 or TIMEDIFFERENCE > 14:
 	invalid_setting("time-difference")
