@@ -123,6 +123,7 @@ function convert_wind_speed(ms) {
 // Load configuration settings
 var config_settings;
 var time_difference;
+var ditto_marks;
 var precipitation_unit;
 var precipitation_ending;
 var temp_unit;
@@ -144,6 +145,12 @@ function load_config() {
     time_difference = 0;
     if (config_settings["time-difference"] != undefined) {
       time_difference = config_settings["time-difference"];
+    }
+
+    // Handle optional ditto-marks setting
+    ditto_marks = "''";
+    if (config_settings["ditto-marks"] != undefined) {
+      ditto_marks = config_settings["ditto-marks"];
     }
 
     // Handle optional temp-unit seting
@@ -239,7 +246,7 @@ function set_fields() {
     if (new_weather != last_weather) {
       row = row + '<td class="row-weather" id="' + num + '-weather">' + new_weather + '</td>';
     } else {
-      row = row + '<td class="row-weather" id="' + num + '-weather">' + "''" + '</td>';
+      row = row + '<td class="row-weather" id="' + num + '-weather">' + ditto_marks + '</td>';
     }
     last_weather = new_weather;
 
@@ -254,7 +261,7 @@ function set_fields() {
     if (new_precipitation != last_precipitation) {
       row = row + '<td class="row-precipitation" id="' + num + '-precipitation">' + convert_precipitation(new_precipitation) + precipitation_ending + '</td>';
     } else {
-      row = row + '<td class="row-precipitation" id="' + num + '-precipitation">' + "''" + '</td>';
+      row = row + '<td class="row-precipitation" id="' + num + '-precipitation">' + ditto_marks + '</td>';
     }
     last_precipitation = new_precipitation;
 
@@ -264,7 +271,7 @@ function set_fields() {
     if (new_temp != last_temp) {
       row = row + '<td class="row-temp" id="' + num + '-temp">' + new_temp + temp_ending + '</td>';
     } else {
-      row = row + '<td class="row-temp" id="' + num + '-temp">' + "''" + '</td>';
+      row = row + '<td class="row-temp" id="' + num + '-temp">' + ditto_marks + '</td>';
     }
     last_temp = new_temp;
 
@@ -278,7 +285,7 @@ function set_fields() {
     if (new_cloud_cover != last_cloud_cover) {
       row = row + '<td class="row-cloud-cover" id="' + num + '-colud-cover">' + new_cloud_cover + cloud_cover_ending + '</td>';
     } else {
-      row = row + '<td class="row-cloud-cover" id="' + num + '-colud-cover">' + "''" + '</td>';
+      row = row + '<td class="row-cloud-cover" id="' + num + '-colud-cover">' + ditto_marks + '</td>';
     }
     last_cloud_cover = new_cloud_cover;
 

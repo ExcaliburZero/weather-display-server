@@ -37,6 +37,7 @@ Weather Display Server can be configured by creating a `config.json` file in the
 | `time-difference` | The difference in time in hours for the desired timezone from UTC time, entered as an integer. Defaults to `0`. |
 | `port` | The port that the webpage will be served on, entered as a number. Defaults to `8001`. |
 | `header-units` | Whether the measureument units should be displayed in the header or in the table. Valid values are `"Y"` for having the units in the header and `"N"` for having the units in the table. Defaults to `"Y"`. |
+| `ditto-marks` | The string that is displayed in place of repeated measurements. This can be set to any string or character. Defaults to `"''"`. |
 | `temp-unit` | The units that are used for displaying temperature. Valid values are `"F"` for Farenheit. `"C"` for Celcius, and `"K"` for Kelvin. Defaults to `"F"`. |
 | `precipitation-unit` | The units that are used for displaying precipitation. Valid values are `"in"` for inches and `"mm"` for milimeters. Defaults to `"mm"`. |
 | `wind-speed-unit` | The units that are used for displaying wind speed. Valid values are `"mph"` for miles per hour, `"m/s"` for meters per second, and `"km/h"`for kilometers per hour. Defaults to `"m/s"`. |

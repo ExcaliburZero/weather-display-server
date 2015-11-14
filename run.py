@@ -55,6 +55,9 @@ if 'port' in CONFIG:
 HEADERUNITS = "Y"
 if 'header-units' in CONFIG:
 	HEADERUNITS = CONFIG['header-units']
+DITTOMARKS = "''"
+if 'ditto-marks' in CONFIG:
+	DITTOMARKS = CONFIG['ditto-marks']
 TEMPUNIT = "F"
 if 'temp-unit' in CONFIG:
 	TEMPUNIT = CONFIG['temp-unit']
