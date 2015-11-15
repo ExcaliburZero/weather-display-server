@@ -188,9 +188,9 @@ function load_json() {
 function set_fields() {
   $('#city').html(forcast_data["city"]["name"]);
   $('#country').html(forcast_data["city"]["country"]);
-  $('#weather').html(forcast_data["list"][1]["weather"][0]["main"]);
-  $('#description').html(forcast_data["list"][1]["weather"][0]["description"]);
-  var time = new Date((forcast_data["list"][1]["dt"] * 1000) + (60 * 60 * 1000 * (time_difference + 2)));
+  $('#weather').html(forcast_data["list"][0]["weather"][0]["main"]);
+  $('#description').html(forcast_data["list"][0]["weather"][0]["description"]);
+  var time = new Date((forcast_data["list"][0]["dt"] * 1000) + (60 * 60 * 1000 * (time_difference + 2)));
   var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   $('#time').html(months[time.getMonth()] + " " + time.getDate() + ", " + time.getHours() + ":00");
 
@@ -226,7 +226,7 @@ function set_fields() {
   var new_temp;
   var last_cloud_cover = "";
   var new_cloud_cover;
-  for(var num = 1; num < entries + 1; num++) {
+  for(var num = 0; num < entries; num++) {
     row = "";
     row = row + '<tr>\n';
 
