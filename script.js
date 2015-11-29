@@ -1,3 +1,16 @@
+// Setup several global variables
+var config_settings;
+var time_difference;
+var ditto_marks;
+var header_units;
+var precipitation_unit;
+var precipitation_ending;
+var temp_unit;
+var temp_ending;
+var cloud_cover_ending;
+var wind_speed_unit;
+var wind_speed_ending;
+
 // Convert Kelvin to Farenheit
 function k_to_f(kelvin) {
   return (kelvin - 273.15) * 1.80 + 32.0;
@@ -23,17 +36,17 @@ function get_temp_ending() {
 // Convert the given Kelvin temperature to the correct unit based on the temp-unit config setting
 function convert_temp(kelvin) {
   var converted_temp;
-  if (temp_unit == "F") {
+  if (temp_unit === "F") {
     converted_temp = k_to_f(kelvin);
   }
-  else if (temp_unit == "C") {
+  else if (temp_unit === "C") {
     converted_temp = k_to_c(kelvin);
   }
-  else if (temp_unit == "K") {
+  else if (temp_unit === "K") {
     converted_temp = kelvin;
   }
 
-  if (header_units == "N") {
+  if (header_units === "N") {
     temp_ending = " " + get_temp_ending();
   } else {
     temp_ending = "";
@@ -65,13 +78,13 @@ function convert_precipitation(mm) {
     mm = 0;
   }
 
-  if (precipitation_unit == "in") {
+  if (precipitation_unit === "in") {
     converted_precipitation =  mm_to_in(mm);
-  } else if (precipitation_unit == "mm") {
+  } else if (precipitation_unit === "mm") {
     converted_precipitation = mm;
   }
 
-  if (header_units == "N") {
+  if (header_units === "N") {
     precipitation_ending = " " + get_precipitation_ending();
   } else {
     precipitation_ending = "";
@@ -104,15 +117,15 @@ function get_wind_speed_ending() {
 // Convert the given m/s wind speed to the correct unit based on the wind-speed-unit setting
 function convert_wind_speed(ms) {
   var converted_wind_speed;
-  if (wind_speed_unit == "km/h") {
+  if (wind_speed_unit === "km/h") {
     converted_wind_speed = ms_to_kmh(ms);
-  } else if (wind_speed_unit == "mph") {
+  } else if (wind_speed_unit === "mph") {
     converted_wind_speed = ms_to_mph(ms);
-  } else if (wind_speed_unit == "m/s") {
+  } else if (wind_speed_unit === "m/s") {
     converted_wind_speed = ms;
   }
 
-  if (header_units == "N") {
+  if (header_units === "N") {
     wind_speed_ending = " " + get_wind_speed_ending();
   } else {
     wind_speed_ending = "";
@@ -121,53 +134,43 @@ function convert_wind_speed(ms) {
 }
 
 // Load configuration settings
-var config_settings;
-var time_difference;
-var ditto_marks;
-var precipitation_unit;
-var precipitation_ending;
-var temp_unit;
-var temp_ending;
-var cloud_cover_ending;
-var wind_speed_unit;
-var wind_speed_ending;
 function load_config() {
   $.getJSON("config.json", function(data) {
     config_settings = data;
 
     // Handle optional header-units setting
     header_units = "Y";
-    if (config_settings["header-units"] != undefined) {
+    if (config_settings["header-units"] !== undefined) {
       header_units = config_settings["header-units"];
     }
 
     // Handle optional time-difference setting
     time_difference = 0;
-    if (config_settings["time-difference"] != undefined) {
+    if (config_settings["time-difference"] !== undefined) {
       time_difference = config_settings["time-difference"];
     }
 
     // Handle optional ditto-marks setting
     ditto_marks = "''";
-    if (config_settings["ditto-marks"] != undefined) {
+    if (config_settings["ditto-marks"] !== undefined) {
       ditto_marks = config_settings["ditto-marks"];
     }
 
     // Handle optional temp-unit seting
     temp_unit = "F";
-    if (config_settings["temp-unit"] != undefined) {
+    if (config_settings["temp-unit"] !== undefined) {
       temp_unit = config_settings["temp-unit"];
     }
 
     // Handle optional precipitation-unit setting
     precipitation_unit = "mm";
-    if (config_settings["precipitation-unit"] != undefined) {
+    if (config_settings["precipitation-unit"] !== undefined) {
       precipitation_unit = config_settings["precipitation-unit"];
     }
 
     // Handle optional wind-speed-unit setting
     wind_speed_unit = "m/s";
-    if (config_settings["wind-speed-unit"] != undefined) {
+    if (config_settings["wind-speed-unit"] !== undefined) {
       wind_speed_unit = config_settings["wind-speed-unit"];
     }
 
@@ -200,12 +203,12 @@ function set_fields() {
   row = row + '<th class="header-date">Date</th>';
   row = row + '<th class="header-time">Time</th>';
   row = row + '<th class="header-weather">Weather</th>';
-  if (header_units == "Y") {
+  if (header_units === "Y") {
     row = row + '<th class="header-precipitation">Precipitation (' + get_precipitation_ending() + ')</th>';
     row = row + '<th class="header-temp">Temperature (' + get_temp_ending() + ')</th>';
     row = row + '<th class="header-cloud-cover">Cloud Cover (%)</th>';
     row = row + '<th class="header-wind-speed">Wind Speed (' + get_wind_speed_ending() + ')</th>';
-  } else if (header_units == "N") {
+  } else if (header_units === "N") {
     row = row + '<th class="header-precipitation">Precipitation</th>';
     row = row + '<th class="header-temp">Temperature</th>';
     row = row + '<th class="header-cloud-cover">Cloud Cover</th>';
@@ -233,7 +236,7 @@ function set_fields() {
     time = new Date((forcast_data["list"][num]["dt"] * 1000) + (60 * 60 * 1000 * (time_difference + 2)));
     new_date = months[time.getMonth()] + " " + time.getDate();
     // Prevent repetition of dates
-    if (new_date != last_date) {
+    if (new_date !== last_date) {
       row = row + '<td class="row-date" id="' + num + '-date">' + new_date + '</td>';
     } else {
       row = row + '<td class="row-date" id="' + num + '-date"></td>';
@@ -243,7 +246,7 @@ function set_fields() {
 
     // Prevent repetition of weather
     new_weather = forcast_data["list"][num]["weather"][0]["main"];
-    if (new_weather != last_weather) {
+    if (new_weather !== last_weather) {
       row = row + '<td class="row-weather" id="' + num + '-weather">' + new_weather + '</td>';
     } else {
       row = row + '<td class="row-weather" id="' + num + '-weather">' + ditto_marks + '</td>';
@@ -258,7 +261,7 @@ function set_fields() {
     }
     // Prevent repetition of precipitation
     new_precipitation = precipitation;
-    if (new_precipitation != last_precipitation) {
+    if (new_precipitation !== last_precipitation) {
       row = row + '<td class="row-precipitation" id="' + num + '-precipitation">' + convert_precipitation(new_precipitation) + precipitation_ending + '</td>';
     } else {
       row = row + '<td class="row-precipitation" id="' + num + '-precipitation">' + ditto_marks + '</td>';
@@ -268,21 +271,21 @@ function set_fields() {
 
     // Prevent repetition in temperatures
     new_temp = convert_temp(forcast_data["list"][num]["main"]["temp"]);
-    if (new_temp != last_temp) {
+    if (new_temp !== last_temp) {
       row = row + '<td class="row-temp" id="' + num + '-temp">' + new_temp + temp_ending + '</td>';
     } else {
       row = row + '<td class="row-temp" id="' + num + '-temp">' + ditto_marks + '</td>';
     }
     last_temp = new_temp;
 
-    if (header_units == "N") {
+    if (header_units === "N") {
       cloud_cover_ending = " %";
     } else {
       cloud_cover_ending = "";
     }
     // Prevent repetition in cloud cover
     new_cloud_cover = forcast_data["list"][num]["clouds"]["all"];
-    if (new_cloud_cover != last_cloud_cover) {
+    if (new_cloud_cover !== last_cloud_cover) {
       row = row + '<td class="row-cloud-cover" id="' + num + '-colud-cover">' + new_cloud_cover + cloud_cover_ending + '</td>';
     } else {
       row = row + '<td class="row-cloud-cover" id="' + num + '-colud-cover">' + ditto_marks + '</td>';
